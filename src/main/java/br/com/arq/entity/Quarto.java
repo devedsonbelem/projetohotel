@@ -1,5 +1,6 @@
 package br.com.arq.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
@@ -30,6 +31,7 @@ public class Quarto {
 	
 	
 	@OneToOne(mappedBy = "quarto", cascade = { CascadeType.ALL })
+	@JsonIgnore
     private Reserva reserva;
 
 	public Quarto() {
@@ -47,7 +49,7 @@ public class Quarto {
 	@Override
 	public String toString() {
 		return "Quarto [idQuarto=" + idQuarto + ", numeroQuarto=" + numeroQuarto + ", statusAcomodacaoType="
-				+ statusAcomodacao + "," + reserva.toString() + "]";
+				+ statusAcomodacao +   "]";
 	}
 
 	public Long getIdQuarto() {

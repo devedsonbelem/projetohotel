@@ -10,13 +10,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.arq.entity.Quarto;
 import br.com.arq.service.QuartoServiceImpl;
+
  
 
 @SpringBootApplication
 public class HotelariaApplication implements CommandLineRunner{
  
- 	//@Autowired
-    // private  QuartoServiceImpl service;
+   // @Autowired
+  //  private  QuartoServiceImpl service;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(HotelariaApplication.class, args);
@@ -53,9 +54,9 @@ public class HotelariaApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
  		try {
-      // service.inserirQuartosPrimeiraVez(mockInsertQuartosDisponiveis(1,30));
- 	 //	 service.inserirQuartosPrimeiraVez(mockInsertQuartosIndisponiveis(31,40));
- 	 //	 System.out.println("Ok Primeira Vez Mockado");
+       // service.inserirQuartosPrimeiraVez(mockInsertQuartosDisponiveis(1,30));
+ 	  //	  service.inserirQuartosPrimeiraVez(mockInsertQuartosIndisponiveis(31,40));
+ 	 	//  System.out.println("Ok Primeira Vez Mockado");
  		}catch(Exception ex) {
  	  System.out.println("...Error na Insercao Mokadas"+ ex.getMessage());
  		}

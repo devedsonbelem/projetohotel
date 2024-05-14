@@ -26,25 +26,27 @@ public enum CalculoAcomodacaoType {
 	    }
  
 
-	    public static Double getPrecoAcomodacao(LocalDateTime data) {
-	        CalculoAcomodacaoType tipo =   CalculoAcomodacaoType.ACOMPANHANTEFIMSENANA;
-	        DayOfWeek dayOfWeek = data.getDayOfWeek();
-	        if(tipo.formato.equals("ACOMPANHANTE")) { 
-	        
+	    public static Double getPrecoAcomodacao(LocalDateTime data, String formato) {
+	    	CalculoAcomodacaoType tipo=null;
+	    	DayOfWeek dayOfWeek = data.getDayOfWeek();
+	        if( formato.equals("ACOMPANHANTE")) { 
+		        tipo =  CalculoAcomodacaoType.ACOMPANHANTESEGQUIN;
 	            if (dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
 	                tipo = CalculoAcomodacaoType.ACOMPANHANTEFIMSENANA;
 	            } else {
 	                tipo = CalculoAcomodacaoType.ACOMPANHANTESEGQUIN;
 	            }
 	        } 
-	        if (tipo.formato.equals("CRIANCA")) {
+	        if ( formato.equals("CRIANCA")) {
+	          tipo =  CalculoAcomodacaoType.CRIANCASEGQUIN;
 	            if (dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
 	                tipo = CalculoAcomodacaoType.CRIANCAFIMSEMANA;
 	            } else {
 	                tipo = CalculoAcomodacaoType.CRIANCASEGQUIN;
 	            }
 	        }
-	          if (tipo.formato.equals("INDIVIDUAL")) {
+	          if (formato.equals("INDIVIDUAL")) {
+	             tipo =  CalculoAcomodacaoType.INDIVIDUALSEGQUIN;
 	            if (dayOfWeek == DayOfWeek.FRIDAY || dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
 	                tipo = CalculoAcomodacaoType.INDIVIDUALFIMSEMANA;
 	            } else {
@@ -81,20 +83,28 @@ public enum CalculoAcomodacaoType {
 	        return preco;
 	    }
 
-	    public static int calcularQuantidadeDias(LocalDateTime checkin, LocalDateTime checkout) {
-	        return (int) checkin.toLocalDate().until(checkout.toLocalDate()).getDays();
+	    public static Integer calcularQuantidadeDias(LocalDateTime checkin, LocalDateTime checkout) {
+	        return  checkin.toLocalDate().until(checkout.toLocalDate()).getDays();
 	    }
 
-	    public static Double calcularValorTotal(LocalDateTime checkin, LocalDateTime checkout) {
+	    public static Double calcularValorTotal(LocalDateTime checkin, LocalDateTime checkout,String formato) {
 	        int quantidadeDias = calcularQuantidadeDias(checkin, checkout);
-	        Double precoDiaria = getPrecoAcomodacao(checkin);
+	        Double precoDiaria = getPrecoAcomodacao(checkin,formato);
 	        return precoDiaria * quantidadeDias;
 	    }
 
+	    public static Double calcularValorTotalAcomodacao(LocalDateTime checkin, LocalDateTime checkout, Double valor) {
+	        int quantidadeDias = calcularQuantidadeDias(checkin, checkout);
+
+	        return valor * quantidadeDias;
+	    }
+	    
 	    public static void verificarStatus(String statusAcomodacao) throws Exception {
 	        if (statusAcomodacao.equals("INDISPONIVEL")) {
 	            throw new Exception("Error de Quarto Indisponivel!");
 	        }
 	    }
+	    
+	 
 }    
  

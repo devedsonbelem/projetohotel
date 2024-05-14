@@ -21,7 +21,7 @@ public class Reserva {
 	  @Column(name="id_reserva")
 	  private String idReserva;
  	
- 	 private LocalDateTime checkin;
+ 	  private LocalDateTime checkin;
 
      private LocalDateTime checkout;
      private Integer quantidadeDias;
@@ -30,7 +30,7 @@ public class Reserva {
  	 @JsonProperty("tipo_pagamento")
      private String tipoPagamento;
 
-
+     private String formato;
      
      @OneToOne(cascade=CascadeType.ALL)
      @JoinColumn(name = "id_quarto", referencedColumnName = "id_quarto")
@@ -146,6 +146,14 @@ public class Reserva {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+
+	public String getFormato() {
+		return formato;
+	}
+
+	public void setFormato(String formato) {
+		this.formato = formato;
 	}
 	
      

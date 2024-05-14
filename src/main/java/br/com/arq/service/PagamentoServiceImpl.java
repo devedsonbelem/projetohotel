@@ -44,16 +44,17 @@ public class PagamentoServiceImpl {
 
 	public Reserva gerarTotalQuartos(Long id, Reserva reserva) throws Exception {
 		try {
-
-			Double valorDiario = CalculoAcomodacaoType.getPrecoAcomodacao(LocalDateTime.now());
-			Double valor = CalculoAcomodacaoType.calcularValorTotal(LocalDateTime.now(), reserva.getCheckout());
-			reserva.setValorTotal(valor);
-			reserva.getQuarto().setStatusAcomodacao(reserva.getQuarto().getStatusAcomodacao());
-			reserva.setCheckout(LocalDateTime.now());
+			
+			Double valorDia = CalculoAcomodacaoType.getPrecoAcomodacao(reserva.getCheckin(),reserva.getFormato());
+			reserva.setValorTotal(
+					CalculoAcomodacaoType.calcularValorTotalAcomodacao(reserva.getCheckin(), reserva.getCheckout(), valorDia)
+					);
+ 
+			reserva.setIdReserva(UUID.randomUUID().toString());
 			reserva.setQuantidadeDias(
-					CalculoAcomodacaoType.calcularQuantidadeDias(LocalDateTime.now(), reserva.getCheckout()));
+					CalculoAcomodacaoType.calcularQuantidadeDias(reserva.getCheckin(), reserva.getCheckout()));
 			reserva.setTipoPagamento(reserva.getTipoPagamento());
-
+			reserva.setQuarto(this.alterarIndisponivel(id, reserva.getQuarto()));
 			clienteService.salvar(reserva.getCliente());
 			reserva.setCliente(reserva.getCliente());
 			reserva.setIdReserva(UUID.randomUUID().toString());
@@ -94,9 +95,11 @@ public class PagamentoServiceImpl {
 	public Reserva gerarTotalQuarto(Long id, Reserva reserva) throws Exception {
 		try {
 
-			Double valor = CalculoAcomodacaoType.calcularValorTotal(reserva.getCheckin(), reserva.getCheckout());
-
-			reserva.setValorTotal(valor);
+			Double valorDia = CalculoAcomodacaoType.getPrecoAcomodacao(reserva.getCheckin(),reserva.getFormato());
+			reserva.setValorTotal(
+					CalculoAcomodacaoType.calcularValorTotalAcomodacao(reserva.getCheckin(), reserva.getCheckout(), valorDia)
+					);
+ 
 			reserva.setIdReserva(UUID.randomUUID().toString());
 			reserva.setQuantidadeDias(
 					CalculoAcomodacaoType.calcularQuantidadeDias(reserva.getCheckin(), reserva.getCheckout()));
@@ -107,6 +110,6 @@ public class PagamentoServiceImpl {
 			ex.printStackTrace();
 			throw new Exception("Error ..." + ex.getMessage());
 		}
-	}
+	}  
 
 }

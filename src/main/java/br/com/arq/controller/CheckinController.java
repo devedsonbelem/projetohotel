@@ -27,7 +27,7 @@ public class CheckinController {
 	            
 
 	        } catch (Exception e) {
-	            e.printStackTrace();
+
 	            return ResponseEntity.badRequest().build();
 	        }
 	    }	
@@ -40,7 +40,7 @@ public class CheckinController {
 	            
 
 	        } catch (Exception e) {
-	            e.printStackTrace();
+
 	            return ResponseEntity.badRequest().build();
 	        }
 	    }
